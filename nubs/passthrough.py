@@ -43,10 +43,10 @@ def _fake_decorator(func: _C) -> _C:
     r"""Fake decorator for when numba isn't installed."""
 
     @functools.wraps(func)
-    def wrapped_decorator(*args, **kwargs):  # pragma: no cover
+    def wrapped_decorator(*args: Any, **kwargs: Any) -> _C:  # pragma: no cover
         if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
             # must treat this differently if no arguments were passed
-            return func(args[0])
+            return func(args[0])  # type: ignore[no-any-return]
 
         def real_decorator(func2: _C) -> _C:
             return func(func2, *args, **kwargs)  # type: ignore[no-any-return]
@@ -57,7 +57,7 @@ def _fake_decorator(func: _C) -> _C:
 
 
 @_fake_decorator
-def fake_jit(func: _C, *args, **kwargs) -> _C:  # pylint: disable=unused-argument
+def fake_jit(func: _C, *args: Any, **kwargs: Any) -> _C:  # pylint: disable=unused-argument
     r"""Fake jit decorator for when numba isn't installed."""
     return func
 
@@ -65,7 +65,7 @@ def fake_jit(func: _C, *args, **kwargs) -> _C:  # pylint: disable=unused-argumen
 #%% Conditional imports
 if HAVE_NUMBA:
     # always cached version of njit, which is also jit(cache=True, nopython=True)
-    def ncjit(func: _C, *args, **kwargs) -> _C:
+    def ncjit(func: _C, *args: Any, **kwargs: Any) -> _C:
         r"""Fake decorator for when numba isn't installed."""
         return njit(func, cache=True, *args, **kwargs)  # type: ignore[no-any-return]
 

@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in July 2020.
 """
 
-#%% Imports
+# %% Imports
 import unittest
 
 import nubs as nubs
@@ -19,7 +19,8 @@ try:
 except ModuleNotFoundError:
     _HAVE_NUMBA = False
 
-#%% types
+
+# %% types
 @unittest.skipIf(not _HAVE_NUMBA, "Skipping due to missing numba dependency.")
 class Test_types(unittest.TestCase):
     r"""
@@ -35,6 +36,6 @@ class Test_types(unittest.TestCase):
         self.assertTrue(isinstance(nubs.TARGET, str))
 
 
-#%% Unit test execution
+# %% Unit test execution
 if __name__ == "__main__":
     unittest.main(exit=False)

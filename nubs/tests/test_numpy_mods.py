@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in January 2021.
 """
 
-#%% Imports
+# %% Imports
 import unittest
 
 import nubs as nubs
@@ -19,7 +19,8 @@ if nubs.HAVE_NUMPY:
 else:
     from math import inf, pi
 
-#%% _reduce_shape
+
+# %% _reduce_shape
 class Test__reduce_shape(unittest.TestCase):
     r"""
     Tests the _reduce_shape function with the following cases:
@@ -39,7 +40,7 @@ class Test__reduce_shape(unittest.TestCase):
             nubs.numpy_mods._reduce_shape((1, 2), 2)
 
 
-#%% issorted_ascend
+# %% issorted_ascend
 @unittest.skipIf(not nubs.HAVE_NUMPY, "Skipping due to missing numpy dependency.")
 class Test_issorted_ascend(unittest.TestCase):
     r"""
@@ -64,7 +65,7 @@ class Test_issorted_ascend(unittest.TestCase):
         self.assertFalse(nubs.issorted_ascend(x))
 
 
-#%% issorted_descend
+# %% issorted_descend
 @unittest.skipIf(not nubs.HAVE_NUMPY, "Skipping due to missing numpy dependency.")
 class Test_issorted_descend(unittest.TestCase):
     r"""
@@ -89,7 +90,7 @@ class Test_issorted_descend(unittest.TestCase):
         self.assertFalse(nubs.issorted_descend(x))
 
 
-#%% np_all_axis0, np_all_axis1, np_any_axis0, np_any_axis1
+# %% np_all_axis0, np_all_axis1, np_any_axis0, np_any_axis1
 @unittest.skipIf(not nubs.HAVE_NUMPY, "Skipping due to missing numpy dependency.")
 class Test_np_all_axis0(unittest.TestCase):
     r"""
@@ -141,6 +142,6 @@ class Test_np_all_axis0(unittest.TestCase):
         pass
 
 
-#%% Unit test execution
+# %% Unit test execution
 if __name__ == "__main__":
     unittest.main(exit=False)

@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in February 2021.
 """
 
-#%% Imports
+# %% Imports
 from .numpy_mods import (
     issorted_ascend as issorted_ascend,
     issorted_descend as issorted_descend,
@@ -31,6 +31,6 @@ from .passthrough import (
     TARGET as TARGET,
 )
 
-#%% Unit test
+# %% Unit test
 if __name__ == "__main__":
     pass

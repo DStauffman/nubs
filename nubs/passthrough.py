@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in January 2021.
 """
 
-#%% Normal Imports
+# %% Normal Imports
 from __future__ import annotations
 
 import doctest
@@ -38,7 +38,8 @@ except ModuleNotFoundError:
 if TYPE_CHECKING:
     _C = Callable[..., Any]
 
-#%% Support Functions
+
+# %% Support Functions
 def _fake_decorator(func: _C) -> _C:
     r"""Fake decorator for when numba isn't installed."""
 
@@ -62,7 +63,7 @@ def fake_jit(func: _C, *args: Any, **kwargs: Any) -> _C:  # pylint: disable=unus
     return func
 
 
-#%% Conditional imports
+# %% Conditional imports
 if HAVE_NUMBA:
     # always cached version of njit, which is also jit(cache=True, nopython=True)
     def ncjit(func: _C, *args: Any, **kwargs: Any) -> _C:
@@ -79,7 +80,7 @@ else:
     TARGET = ""
     ncjit = fake_jit
 
-#%% Unit test
+# %% Unit test
 if __name__ == "__main__":
     unittest.main(module="nubs.tests.test_passthrough", exit=False)
     doctest.testmod(verbose=False)

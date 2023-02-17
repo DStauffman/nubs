@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in January 2021.
 """
 
-#%% Imports
+# %% Imports
 from __future__ import annotations
 
 import doctest
@@ -26,7 +26,8 @@ if HAVE_NUMPY:
 if TYPE_CHECKING:
     _B = np.typing.NDArray[np.bool_]
 
-#%% _reduce_shape
+
+# %% _reduce_shape
 @ncjit
 def _reduce_shape(shape: Tuple, axis: int) -> List[int]:
     r"""Gives what will be the reduced array shape after applying an operation to the given axis."""
@@ -34,13 +35,13 @@ def _reduce_shape(shape: Tuple, axis: int) -> List[int]:
     if num <= axis:
         raise ValueError("The specified axis must be less than the number of dimensions.")
     out: List[int] = List()
-    for (i, s) in enumerate(shape):
+    for i, s in enumerate(shape):
         if i != axis:
             out.append(s)
     return out
 
 
-#%% issorted_ascend
+# %% issorted_ascend
 @ncjit
 def issorted_ascend(x: np.ndarray) -> boolean:
     r"""
@@ -71,7 +72,7 @@ def issorted_ascend(x: np.ndarray) -> boolean:
     return np.all(x[:-1] <= x[1:])
 
 
-#%% issorted_descend
+# %% issorted_descend
 @ncjit
 def issorted_descend(x: np.ndarray) -> boolean:
     r"""
@@ -102,7 +103,7 @@ def issorted_descend(x: np.ndarray) -> boolean:
     return np.all(x[1:] <= x[:-1])
 
 
-#%% Functions - np_all_axis0
+# %% Functions - np_all_axis0
 @ncjit
 def np_all_axis0(x: _B) -> _B:
     r"""
@@ -135,7 +136,7 @@ def np_all_axis0(x: _B) -> _B:
     return out
 
 
-#%% Functions - np_all_axis1
+# %% Functions - np_all_axis1
 @ncjit
 def np_all_axis1(x: _B) -> _B:
     """Numba compatible version of np.all(x, axis=1).
@@ -164,7 +165,7 @@ def np_all_axis1(x: _B) -> _B:
     return out
 
 
-#%% Functions - np_any_axis0
+# %% Functions - np_any_axis0
 @ncjit
 def np_any_axis0(x: _B) -> _B:
     """Numba compatible version of np.any(x, axis=0).
@@ -196,7 +197,7 @@ def np_any_axis0(x: _B) -> _B:
     return out
 
 
-#%% Functions - np_any_axis1
+# %% Functions - np_any_axis1
 @ncjit
 def np_any_axis1(x: _B) -> _B:
     """Numba compatible version of np.any(x, axis=1).
@@ -225,7 +226,7 @@ def np_any_axis1(x: _B) -> _B:
     return out
 
 
-#%% Unit test
+# %% Unit test
 if __name__ == "__main__":
     unittest.main(module="nubs.tests.test_numpy_mods", exit=False)
     doctest.testmod(verbose=False)

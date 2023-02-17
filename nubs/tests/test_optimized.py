@@ -6,7 +6,7 @@ Notes
 #.  Written by David C. Stauffer in July 2020.
 """
 
-#%% Imports
+# %% Imports
 from typing import Any, Callable, List, Union
 import unittest
 
@@ -27,7 +27,8 @@ except ModuleNotFoundError:
     nubList: Callable[[Any], Any] = lambda x: x  # type: ignore[no-redef]
     _HAVE_NUMBA = False
 
-#%% np_any
+
+# %% np_any
 class Test_np_any(unittest.TestCase):
     r"""
     Tests the np_any function with the following cases:
@@ -53,7 +54,7 @@ class Test_np_any(unittest.TestCase):
         self.assertTrue(nubs.np_any(x))
 
 
-#%% np_all
+# %% np_all
 class Test_np_all(unittest.TestCase):
     r"""
     Tests the np_all function with the following cases:
@@ -79,7 +80,7 @@ class Test_np_all(unittest.TestCase):
         self.assertFalse(nubs.np_all(x))
 
 
-#%% issorted_opt
+# %% issorted_opt
 class Test_issorted_opt(unittest.TestCase):
     r"""
     Tests the issorted_opt function with the following cases:
@@ -111,7 +112,7 @@ class Test_issorted_opt(unittest.TestCase):
         self.assertFalse(nubs.issorted_opt(x, descend=True))
 
 
-#%% prob_to_rate_opt
+# %% prob_to_rate_opt
 @unittest.skipIf(not nubs.HAVE_NUMPY, "Skipping due to missing numpy dependency.")
 class Test_prob_to_rate_opt(unittest.TestCase):
     r"""
@@ -159,7 +160,7 @@ class Test_prob_to_rate_opt(unittest.TestCase):
         np.testing.assert_array_almost_equal(prob, self.prob)
 
 
-#%% rate_to_prob_opt
+# %% rate_to_prob_opt
 @unittest.skipIf(not nubs.HAVE_NUMPY, "Skipping due to missing numpy dependency.")
 class Test_rate_to_prob_opt(unittest.TestCase):
     r"""
@@ -207,7 +208,7 @@ class Test_rate_to_prob_opt(unittest.TestCase):
         np.testing.assert_array_almost_equal(rate, self.rate)
 
 
-#%% zero_divide
+# %% zero_divide
 class Test_zero_divide(unittest.TestCase):
     r"""
     Tests the zero_divide function with the following cases:
@@ -255,6 +256,6 @@ class Test_zero_divide(unittest.TestCase):
         np.testing.assert_array_equal(out, exp)  # pragma: no cover
 
 
-#%% Unit test execution
+# %% Unit test execution
 if __name__ == "__main__":
     unittest.main(exit=False)

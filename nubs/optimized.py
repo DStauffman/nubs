@@ -7,7 +7,7 @@ Notes
 #.  Moved into a submodule by David C. Stauffer in February 2021.
 """
 
-#%% Imports
+# %% Imports
 from __future__ import annotations
 
 import doctest
@@ -29,7 +29,8 @@ if TYPE_CHECKING:
 
     _N = Union[float, ndarray]
 
-#%% np_any
+
+# %% np_any
 @ncjit
 def np_any(x: Sequence, /) -> bool:
     r"""
@@ -65,7 +66,7 @@ def np_any(x: Sequence, /) -> bool:
     return False
 
 
-#%% np_all
+# %% np_all
 @ncjit
 def np_all(x: Sequence, /) -> bool:
     r"""
@@ -101,7 +102,7 @@ def np_all(x: Sequence, /) -> bool:
     return True
 
 
-#%% issorted_opt
+# %% issorted_opt
 @ncjit
 def issorted_opt(x: Sequence, /, descend: bool = False) -> bool:
     r"""
@@ -142,7 +143,7 @@ def issorted_opt(x: Sequence, /, descend: bool = False) -> bool:
     return True
 
 
-#%% Functions - prob_to_rate_opt
+# %% Functions - prob_to_rate_opt
 # @vectorize (done below)
 def prob_to_rate_opt(prob: _N, time: _N) -> _N:
     r"""
@@ -193,7 +194,8 @@ if HAVE_NUMBA:
 elif HAVE_NUMPY:
     prob_to_rate_opt = vectorize(prob_to_rate_opt, cache=True)
 
-#%% Functions - rate_to_prob_opt
+
+# %% Functions - rate_to_prob_opt
 # @vectorize (done below)
 def rate_to_prob_opt(rate: _N, time: _N) -> _N:
     r"""
@@ -239,7 +241,8 @@ if HAVE_NUMBA:
 elif HAVE_NUMPY:
     rate_to_prob_opt = vectorize(rate_to_prob_opt, cache=True)
 
-#%% Functions - zero_divide
+
+# %% Functions - zero_divide
 # @vectorize (done below)
 def zero_divide(num: _N, den: _N) -> _N:
     r"""
@@ -289,7 +292,7 @@ if HAVE_NUMBA:
 elif HAVE_NUMPY:
     zero_divide = vectorize(zero_divide, cache=True)
 
-#%% Unit test
+# %% Unit test
 if __name__ == "__main__":
     unittest.main(module="nubs.tests.test_optimized", exit=False)
     doctest.testmod(verbose=False)

@@ -24,7 +24,9 @@ if HAVE_NUMPY:
     import numpy as np
 
 if TYPE_CHECKING:
-    _B = np.typing.NDArray[np.bool_]
+    from numpy.typing import NDArray
+
+    _B = NDArray[np.bool_]
 
 
 # %% _reduce_shape

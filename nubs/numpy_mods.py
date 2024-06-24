@@ -10,7 +10,7 @@ Notes
 from __future__ import annotations
 
 import doctest
-from typing import Tuple, TYPE_CHECKING
+from typing import TYPE_CHECKING
 import unittest
 
 from nubs.passthrough import HAVE_NUMBA, HAVE_NUMPY, ncjit
@@ -27,11 +27,15 @@ if TYPE_CHECKING:
     from numpy.typing import NDArray
 
     _B = NDArray[np.bool_]
+    _D = NDArray[np.datetime64]
+    _I = NDArray[np.int_]
+    _N = NDArray[np.float64]
+    _Array = _B | _D | _I | _N
 
 
 # %% _reduce_shape
 @ncjit
-def _reduce_shape(shape: Tuple, axis: int) -> List[int]:
+def _reduce_shape(shape: tuple, axis: int) -> List[int]:
     r"""Gives what will be the reduced array shape after applying an operation to the given axis."""
     num = len(shape)
     if num <= axis:
@@ -45,7 +49,7 @@ def _reduce_shape(shape: Tuple, axis: int) -> List[int]:
 
 # %% issorted_ascend
 @ncjit
-def issorted_ascend(x: np.ndarray) -> boolean:
+def issorted_ascend(x: _Array) -> boolean:
     r"""
     Tells whether the given array is sorted in ascending order or not.
 
@@ -71,12 +75,12 @@ def issorted_ascend(x: np.ndarray) -> boolean:
     False
 
     """
-    return np.all(x[:-1] <= x[1:])
+    return np.all(x[:-1] <= x[1:])  # type: ignore[operator]
 
 
 # %% issorted_descend
 @ncjit
-def issorted_descend(x: np.ndarray) -> boolean:
+def issorted_descend(x: _Array) -> boolean:
     r"""
     Tells whether the given array is sorted in descending order or not.
 
@@ -102,7 +106,7 @@ def issorted_descend(x: np.ndarray) -> boolean:
     True
 
     """
-    return np.all(x[1:] <= x[:-1])
+    return np.all(x[1:] <= x[:-1])  # type: ignore[operator]
 
 
 # %% Functions - np_all_axis0

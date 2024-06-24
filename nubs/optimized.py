@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import doctest
 import math
-from typing import Sequence, TYPE_CHECKING, Union
+from typing import Sequence, TYPE_CHECKING
 import unittest
 
 from nubs.passthrough import fake_jit, HAVE_NUMBA, HAVE_NUMPY, ncjit, TARGET
@@ -27,7 +27,7 @@ else:
 if TYPE_CHECKING:
     from numpy import ndarray
 
-    _N = Union[float, ndarray]
+    _N = float | ndarray
 
 
 # %% np_any

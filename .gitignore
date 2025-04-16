@@ -48,6 +48,7 @@ Temporary Items
 # Compiled source #
 # =========================
 *.pyc
+*.pyo
 *.nbc
 *.nbi
 *.o
@@ -58,7 +59,7 @@ Temporary Items
 # =========================
 # Installation Artifacts #
 # =========================
-slog.egg-info/*
+nubs.egg-info/*
 
 # =========================
 # Pytest logs #

@@ -30,6 +30,10 @@ from .passthrough import (
     ncjit as ncjit,
     TARGET as TARGET,
 )
+from .version import version_info as version_info
+
+# %% Constants
+__version__ = ".".join(str(x) for x in version_info)
 
 # %% Unit test
 if __name__ == "__main__":

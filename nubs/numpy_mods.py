@@ -4,6 +4,7 @@ Methods designed to be compiled with numba in nopython=True mode.
 Notes
 -----
 #.  Written by David C. Stauffer in January 2021.
+
 """
 
 # %% Imports
@@ -145,7 +146,8 @@ def np_all_axis0(x: _B) -> _B:
 # %% Functions - np_all_axis1
 @ncjit
 def np_all_axis1(x: _B) -> _B:
-    """Numba compatible version of np.all(x, axis=1).
+    """
+    Numba compatible version of np.all(x, axis=1).
 
     Parameters
     ----------
@@ -174,7 +176,8 @@ def np_all_axis1(x: _B) -> _B:
 # %% Functions - np_any_axis0
 @ncjit
 def np_any_axis0(x: _B) -> _B:
-    """Numba compatible version of np.any(x, axis=0).
+    """
+    Numba compatible version of np.any(x, axis=0).
 
     Parameters
     ----------
@@ -206,7 +209,8 @@ def np_any_axis0(x: _B) -> _B:
 # %% Functions - np_any_axis1
 @ncjit
 def np_any_axis1(x: _B) -> _B:
-    """Numba compatible version of np.any(x, axis=1).
+    """
+    Numba compatible version of np.any(x, axis=1).
 
     Parameters
     ----------

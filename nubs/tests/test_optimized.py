@@ -4,6 +4,7 @@ Test file for the `optimized` module of the "nubs" library.
 Notes
 -----
 #.  Written by David C. Stauffer in July 2020.
+
 """
 
 # %% Imports
@@ -24,7 +25,7 @@ try:
 
     _HAVE_NUMBA = True
 except ModuleNotFoundError:
-    nubList: Callable[[Any], Any] = lambda x: x  # type: ignore[no-redef]
+    nubList: Callable[[Any], Any] = lambda x: x  # type: ignore[no-redef]  # noqa: E731
     _HAVE_NUMBA = False
 
 

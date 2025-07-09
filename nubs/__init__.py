@@ -4,6 +4,7 @@ Functions and decorators for dealing with and without having numba.
 Notes
 -----
 #.  Written by David C. Stauffer in February 2021.
+
 """
 
 # %% Imports

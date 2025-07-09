@@ -4,6 +4,7 @@ Test file for the `optimized` module of the "nubs" library.
 Notes
 -----
 #.  Written by David C. Stauffer in July 2020.
+
 """
 
 # %% Imports

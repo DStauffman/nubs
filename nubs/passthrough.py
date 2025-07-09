@@ -4,6 +4,7 @@ Methods designed to be compiled with numba in nopython=True mode.
 Notes
 -----
 #.  Written by David C. Stauffer in January 2021.
+
 """
 
 # %% Normal Imports

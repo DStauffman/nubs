@@ -4,6 +4,7 @@ Test file for the `numba` module of the "nubs" library.
 Notes
 -----
 #.  Written by David C. Stauffer in January 2021.
+
 """
 
 # %% Imports
@@ -132,7 +133,7 @@ class Test_np_all_axis0(unittest.TestCase):
         self.assertFalse(nubs.np_any_axis0(np.array(False, dtype=bool)))
 
     def test_3d(self) -> None:
-        x = np.round(np.random.rand(3, 4, 5)).astype(bool)
+        x = np.round(np.random.default_rng().random((3, 4, 5))).astype(bool)
         np.testing.assert_array_equal(nubs.np_all_axis0(x), np.all(x, axis=0))
         np.testing.assert_array_equal(nubs.np_all_axis1(x), np.all(x, axis=1))
         np.testing.assert_array_equal(nubs.np_any_axis0(x), np.any(x, axis=0))

@@ -25,6 +25,9 @@ if platform.python_implementation() == "CPython":
         HAVE_NUMBA = True
     except ModuleNotFoundError:
         HAVE_NUMBA = False
+    except OSError:
+        print("Not using numba, as the DLL did not load.")
+        HAVE_NUMBA = False
 else:
     HAVE_NUMBA = False  # pragma: no cover
 

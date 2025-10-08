@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import doctest
 import math
-from typing import Sequence, TYPE_CHECKING
+from typing import TYPE_CHECKING
 import unittest
 
 from nubs.passthrough import fake_jit, HAVE_NUMBA, HAVE_NUMPY, ncjit, TARGET
@@ -26,6 +26,8 @@ else:
     float32 = float64 = int32 = int64 = fake_jit
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from numpy import ndarray
 
     _N = float | ndarray
@@ -61,7 +63,7 @@ def np_any(x: Sequence, /) -> bool:
     True
 
     """
-    for i in range(len(x)):  # pylint: disable=consider-using-enumerate
+    for i in range(len(x)):  # pylint: disable=consider-using-enumerate  # noqa: SIM110
         if x[i]:
             return True
     return False
@@ -97,7 +99,7 @@ def np_all(x: Sequence, /) -> bool:
     False
 
     """
-    for i in range(len(x)):  # pylint: disable=consider-using-enumerate
+    for i in range(len(x)):  # pylint: disable=consider-using-enumerate  # noqa: SIM110
         if not x[i]:
             return False
     return True

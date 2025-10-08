@@ -8,7 +8,8 @@ Notes
 """
 
 # %% Imports
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 import unittest
 
 import nubs as nubs
@@ -25,7 +26,7 @@ try:
 
     _HAVE_NUMBA = True
 except ModuleNotFoundError:
-    nubList: Callable[[Any], Any] = lambda x: x  # type: ignore[no-redef]  # noqa: E731
+    nubList: Callable[[Any], Any] = lambda x: x  # type: ignore[no-redef]  # noqa: E731, N816
     _HAVE_NUMBA = False
 
 

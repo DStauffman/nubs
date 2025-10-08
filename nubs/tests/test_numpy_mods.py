@@ -32,13 +32,13 @@ class Test__reduce_shape(unittest.TestCase):
     def test_nominal(self) -> None:
         shape = (1, 2, 3, 4, 5)
         for axis in range(5):
-            out = nubs.numpy_mods._reduce_shape(shape, axis)
+            out = nubs.numpy_mods._reduce_shape(shape, axis)  # noqa: SLF001
             expected = shape[:axis] + shape[axis + 1 :]
             self.assertEqual(tuple(out), expected)
 
     def test_bad_axis(self) -> None:
         with self.assertRaises(ValueError):
-            nubs.numpy_mods._reduce_shape((1, 2), 2)
+            nubs.numpy_mods._reduce_shape((1, 2), 2)  # noqa: SLF001
 
 
 # %% issorted_ascend

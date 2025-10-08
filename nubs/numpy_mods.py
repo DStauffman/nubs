@@ -17,7 +17,6 @@ import unittest
 from nubs.passthrough import HAVE_NUMBA, HAVE_NUMPY, ncjit
 
 if HAVE_NUMBA:
-    from numba import boolean
     from numba.typed import List
 else:
     List = list
@@ -25,6 +24,7 @@ if HAVE_NUMPY:
     import numpy as np
 
 if TYPE_CHECKING:
+    from numba import boolean
     from numpy.typing import NDArray
 
     _B = NDArray[np.bool_]

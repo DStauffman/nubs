@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import doctest
 import functools
+import importlib.util
 import platform
 import sys
 from typing import Any, TYPE_CHECKING
@@ -32,13 +33,7 @@ if platform.python_implementation() == "CPython":
 else:
     HAVE_NUMBA = False  # pragma: no cover
 
-try:
-    import numpy  # noqa: ICN001
-
-    assert numpy
-    HAVE_NUMPY = True
-except ModuleNotFoundError:
-    HAVE_NUMPY = False
+HAVE_NUMPY = importlib.util.find_spec("numpy")
 
 if TYPE_CHECKING:
     from collections.abc import Callable

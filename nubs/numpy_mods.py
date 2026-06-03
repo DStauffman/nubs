@@ -76,7 +76,7 @@ def issorted_ascend(x: _Array) -> boolean:
     False
 
     """
-    return np.all(x[:-1] <= x[1:])  # type: ignore[operator]
+    return np.all(x[:-1] <= x[1:])  # type: ignore[operator]  # ty: ignore[unsupported-operator]
 
 
 # %% issorted_descend
@@ -107,7 +107,7 @@ def issorted_descend(x: _Array) -> boolean:
     True
 
     """
-    return np.all(x[1:] <= x[:-1])  # type: ignore[operator]
+    return np.all(x[1:] <= x[:-1])  # type: ignore[operator]  # ty: ignore[unsupported-operator]
 
 
 # %% Functions - np_all_axis0

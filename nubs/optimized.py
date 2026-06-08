@@ -193,9 +193,14 @@ def prob_to_rate_opt(prob: _N, time: _N) -> _N:
 
 
 if HAVE_NUMBA:
-    prob_to_rate_opt = vectorize([float64(float64, float64)], nopython=True, target=TARGET, cache=True)(prob_to_rate_opt)
+    prob_to_rate_opt = vectorize(
+        [float64(float64, float64)],  # ty: ignore[invalid-argument-type]
+        nopython=True,  # ty: ignore[unknown-argument]
+        target=TARGET,  # ty: ignore[unknown-argument]
+        cache=True,
+    )(prob_to_rate_opt)
 elif HAVE_NUMPY:
-    prob_to_rate_opt = vectorize(prob_to_rate_opt, cache=True)
+    prob_to_rate_opt = vectorize(prob_to_rate_opt, cache=True)  # ty: ignore[invalid-assignment]
 
 
 # %% Functions - rate_to_prob_opt
@@ -240,9 +245,14 @@ def rate_to_prob_opt(rate: _N, time: _N) -> _N:
 
 
 if HAVE_NUMBA:
-    rate_to_prob_opt = vectorize([float64(float64, float64)], nopython=True, target=TARGET, cache=True)(rate_to_prob_opt)
+    rate_to_prob_opt = vectorize(
+        [float64(float64, float64)],  # ty: ignore[invalid-argument-type]
+        nopython=True,  # ty: ignore[unknown-argument]
+        target=TARGET,  # ty: ignore[unknown-argument]
+        cache=True,
+    )(rate_to_prob_opt)
 elif HAVE_NUMPY:
-    rate_to_prob_opt = vectorize(rate_to_prob_opt, cache=True)
+    rate_to_prob_opt = vectorize(rate_to_prob_opt, cache=True)  # ty: ignore[invalid-assignment]
 
 
 # %% Functions - zero_divide
@@ -287,13 +297,13 @@ def zero_divide(num: _N, den: _N) -> _N:
 
 if HAVE_NUMBA:
     zero_divide = vectorize(
-        [float32(int32, int32), float64(int64, int64), float32(float32, float32), float64(float64, float64)],
-        nopython=True,
-        target=TARGET,
+        [float32(int32, int32), float64(int64, int64), float32(float32, float32), float64(float64, float64)],  ty: ignore[invalid-argument-type]
+        nopython=True,  # ty: ignore[unknown-argument]
+        target=TARGET,  # ty: ignore[unknown-argument]
         cache=True,
-    )(zero_divide)
+    )(zero_divide)  # fmt: skip
 elif HAVE_NUMPY:
-    zero_divide = vectorize(zero_divide, cache=True)
+    zero_divide = vectorize(zero_divide, cache=True)  # ty: ignore[invalid-assignment]
 
 # %% Unit test
 if __name__ == "__main__":

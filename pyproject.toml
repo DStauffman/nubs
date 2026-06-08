@@ -34,7 +34,7 @@ classifiers = [
 full = ["numba>=0.57", "numpy>=2.0"]
 
 [project.dependency-groups]
-static = ["black>=25.0", "flake8>=6.0", "isort>=5.10", "mypy>=1.5", "pycodestyle>=2.10", "pylint>=2.16"]
+static = ["black>=25.0", "isort>=5.10", "mypy>=1.5", "pylint>=2.16"]
 test = ["pytest>=7.4", "pytest-cov>=4.0"]
 
 [project.urls]
@@ -46,7 +46,7 @@ Changelog = "https://github.com/DStauffman/nubs/blob/main/CHANGELOG.md"
 nubs = "nubs.cli:main"
 
 [tool.setuptools.package-data]
-nubs = ["CHANGELOG.md", "LICENSE.txt", "pyproject.toml", "README.rst", "setup.cfg"]
+nubs = ["CHANGELOG.md", "LICENSE.txt", "pyproject.toml", "README.rst"]
 
 [tool.black]
 line-length = 128
@@ -135,7 +135,7 @@ add-ignore = ["D102", "D105", "D204"]
 include = ["pyproject.toml", "nubs/**/*.py"]
 line-length = 128
 indent-width = 4
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = ["ALL"]
@@ -179,21 +179,13 @@ line-ending = "auto"
 
 [tool.ty.environment]
 python-version = "3.14"
-root = ["./nubs"]
+root = ["."]
 
-# Strict rules for source code
-[[tool.ty.overrides]]
-include = ["nubs"]
-
-[tool.ty.overrides.rules]
-invalid-argument-type = "ignore"
-invalid-assignment = "ignore"
-invalid-return-type = "ignore"
-invalid-type-form = "ignore"
-missing-argument = "ignore"
-unknown-argument = "ignore"
-unresolved-attribute = "ignore"
-unresolved-import = "ignore"
+[tool.ty.analysis]
+# Disable support for `type: ignore` comments, so that they only apply to mypy
+respect-type-ignore-comments = false
+# Suppress errors for all `test` modules except `test.foo`
+allowed-unresolved-imports = ["numba.**"]
 
 # Relax rules for test files
 [[tool.ty.overrides]]

@@ -297,7 +297,7 @@ def zero_divide(num: _N, den: _N) -> _N:
 
 if HAVE_NUMBA:
     zero_divide = vectorize(
-        [float32(int32, int32), float64(int64, int64), float32(float32, float32), float64(float64, float64)],  ty: ignore[invalid-argument-type]
+        [float32(int32, int32), float64(int64, int64), float32(float32, float32), float64(float64, float64)],  # ty: ignore[invalid-argument-type]
         nopython=True,  # ty: ignore[unknown-argument]
         target=TARGET,  # ty: ignore[unknown-argument]
         cache=True,

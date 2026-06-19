@@ -73,8 +73,7 @@ if HAVE_NUMBA:
         return njit(func, cache=True, *args, **kwargs)  # type: ignore[no-any-return]  # noqa: B026
 
     # target for vectorized functions
-    assert sys.version_info >= (3, 8), "Must be Python v3.8 or higher"
-    # Note: no longer using "parallel" in Python v3.9+ as it breaks the vectorize error catching
+    assert sys.version_info >= (3, 11), "Must be Python v3.11 or higher"
     TARGET = "cpu"
 else:
     # Support for when you don't have numba.  Note, some functions won't work as expected

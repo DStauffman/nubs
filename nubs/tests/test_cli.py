@@ -40,7 +40,7 @@ class Test_print_help(unittest.TestCase):
             nubs.print_help()
         output = buffer.getvalue()
         buffer.close()
-        self.assertTrue(output.startswith(("#######\nlmspace\n#######\n", "####\nnubs\n####\n")))
+        self.assertTrue(output.startswith("####\nnubs\n####\n"))
 
     def test_specify_file(self) -> None:
         help_file = nubs.get_root_dir().joinpath("tests", "test_cli.py")

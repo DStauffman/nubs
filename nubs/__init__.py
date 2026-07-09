@@ -8,6 +8,12 @@ Notes
 """
 
 # %% Imports
+from .cli import (
+    get_root_dir as get_root_dir,
+    main as main,
+    print_help as print_help,
+    print_version as print_version,
+)
 from .numpy_mods import (
     issorted_ascend as issorted_ascend,
     issorted_descend as issorted_descend,

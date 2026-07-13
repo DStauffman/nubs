@@ -1,0 +1,244 @@
+name: Run Unit Tests via Pytest
+
+on: [push]
+
+env:
+  NUBS_ROOT_DIR: "${{ github.workspace }}/nubs_repo"
+  NUBS_TESTS_DIR: "${{ github.workspace }}/nubs_repo/nubs/tests"
+  PYPROJECT_TOLM: "${{ github.workspace }}/nubs_repo/pyproject.toml"
+  VENV_ROOT_DIR: "${{ github.workspace }}"
+  PYTHONPATH: "${{ github.workspace }}/nubs_repo"
+
+jobs:
+  basic_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        path: ${{ github.workspace }}/nubs_repo
+
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v5
+      id: setup_uv
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install Dependencies for each environment
+      run: |
+        uv venv core_only
+        source $VENV_ROOT_DIR/core_only/bin/activate
+        deactivate
+        uv venv everything
+        source $VENV_ROOT_DIR/everything/bin/activate
+        uv pip install dask[dataframe] datashader h5py matplotlib numba numpy pandas pyarrow PyQt5 pytest-cov qtpy scipy tblib
+        deactivate
+
+    - name: Test core_only with unittest
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/core_only/bin/activate
+        python -m nubs tests -u
+
+    - name: Test docstrings
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/everything/bin/activate
+        python -m nubs tests -d
+
+  static:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        path: ${{ github.workspace }}/nubs_repo
+
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v5
+      id: setup_uv
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install Dependencies for each environment
+      run: |
+        uv venv static
+        source $VENV_ROOT_DIR/static/bin/activate
+        uv pip install black isort mypy numpy pylint pylint-exit pytest-cov ruff ty
+        deactivate
+
+    - name: Mypy static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        mypy --version
+        mypy
+
+    - name: Ruff static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        ruff --version
+        ruff check .
+
+    - name: Ty static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        ty --version
+        ty check .
+
+    - name: Pylint static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        pylint --version
+        pylint . || pylint-exit $?
+
+    - name: black static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        black --version
+        black . --check --fast
+
+    - name: isort static analysis
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        isort --version
+        isort . --check-only --diff
+
+  full_tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.14"]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        path: ${{ github.workspace }}/nubs_repo
+
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v5
+      id: setup_uv
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install Dependencies for each environment
+      run: |
+        uv venv core_only
+        source $VENV_ROOT_DIR/core_only/bin/activate
+        uv pip install pytest-cov
+        deactivate
+        uv venv static
+        source $VENV_ROOT_DIR/static/bin/activate
+        uv pip install black isort mypy numpy pylint pylint-exit pytest-cov ruff ty
+        deactivate
+        uv venv everything
+        source $VENV_ROOT_DIR/everything/bin/activate
+        uv pip install numba numpy pytest-cov
+        deactivate
+
+    - name: Test core_only with pytest
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/core_only/bin/activate
+        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.core
+
+    - name: Test without numba using static
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.no_numba
+
+    - name: Test full library with everything
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/everything/bin/activate
+        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.full
+
+    - name: Run coverage reports
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.imports
+        export COVERAGE_RCFILE=$PYPROJEC_TOLM
+        source $VENV_ROOT_DIR/core_only/bin/activate
+        coverage run $NUBS_TESTS_DIR/test_cli.py
+        deactivate
+        source $VENV_ROOT_DIR/static/bin/activate
+        coverage run --append $NUBS_TESTS_DIR/test_version.py
+        deactivate
+        source $VENV_ROOT_DIR/everything/bin/activate
+        coverage run --append $NUBS_TESTS_DIR/test_version.py
+
+    - name: Make the coverage reports
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        export COVERAGE_FILE=.coverage
+        coverage --version
+        coverage combine --keep
+        coverage html --rcfile $PYPROJECT_TOLM
+        coverage xml --rcfile $PYPROJECT_TOLM
+        coverage json --rcfile $PYPROJECT_TOLM
+
+  old_versions:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+      with:
+        path: ${{ github.workspace }}/nubs_repo
+
+    - name: Install uv and set the python version
+      uses: astral-sh/setup-uv@v5
+      id: setup_uv
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Set up Python
+      run: uv python install
+
+    - name: Install Dependencies and run tests
+      run: |
+        uv venv old_version
+        source $VENV_ROOT_DIR/old_version/bin/activate
+        uv pip install numba numpy pytest-cov
+        python -m nubs tests
+        deactivate

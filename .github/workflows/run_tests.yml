@@ -34,6 +34,7 @@ jobs:
       run: |
         uv venv core_only
         source $VENV_ROOT_DIR/core_only/bin/activate
+        uv pip install pytest-cov
         deactivate
         uv venv everything
         source $VENV_ROOT_DIR/everything/bin/activate
@@ -44,13 +45,13 @@ jobs:
       if: always()
       run: |
         source $VENV_ROOT_DIR/core_only/bin/activate
-        python -m nubs tests -u
+        python -m nubs tests
 
     - name: Test docstrings
       if: always()
       run: |
         source $VENV_ROOT_DIR/everything/bin/activate
-        python -m nubs tests -d
+        python -m nubs doctests
 
   static:
     runs-on: ubuntu-latest
@@ -76,7 +77,7 @@ jobs:
       run: |
         uv venv static
         source $VENV_ROOT_DIR/static/bin/activate
-        uv pip install black isort mypy numpy pylint pylint-exit pytest-cov ruff ty
+        uv pip install black mypy numpy pylint pylint-exit pytest-cov ruff ty
         deactivate
 
     - name: Mypy static analysis
@@ -96,6 +97,15 @@ jobs:
         python --version
         ruff --version
         ruff check .
+
+    - name: Ruff format
+      working-directory: ${{ env.NUBS_ROOT_DIR }}
+      if: always()
+      run: |
+        source $VENV_ROOT_DIR/static/bin/activate
+        python --version
+        ruff --version
+        ruff format .
 
     - name: Ty static analysis
       working-directory: ${{ env.NUBS_ROOT_DIR }}
@@ -123,14 +133,6 @@ jobs:
         python --version
         black --version
         black . --check --fast
-
-    - name: isort static analysis
-      working-directory: ${{ env.NUBS_ROOT_DIR }}
-      if: always()
-      run: |
-        source $VENV_ROOT_DIR/static/bin/activate
-        isort --version
-        isort . --check-only --diff
 
   full_tests:
     runs-on: ubuntu-latest
@@ -160,7 +162,7 @@ jobs:
         deactivate
         uv venv static
         source $VENV_ROOT_DIR/static/bin/activate
-        uv pip install black isort mypy numpy pylint pylint-exit pytest-cov ruff ty
+        uv pip install black mypy numpy pylint pylint-exit pytest-cov ruff ty
         deactivate
         uv venv everything
         source $VENV_ROOT_DIR/everything/bin/activate
@@ -172,21 +174,27 @@ jobs:
       if: always()
       run: |
         source $VENV_ROOT_DIR/core_only/bin/activate
-        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.core
+        export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.core
+        export COVERAGE_RCFILE=$PYPROJEC_TOLM
+        python -m coverage nubs tests
 
     - name: Test without numba using static
       working-directory: ${{ env.NUBS_ROOT_DIR }}
       if: always()
       run: |
         source $VENV_ROOT_DIR/static/bin/activate
-        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.no_numba
+        export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.no_numba
+        export COVERAGE_RCFILE=$PYPROJEC_TOLM
+        python -m coverage nubs tests
 
     - name: Test full library with everything
       working-directory: ${{ env.NUBS_ROOT_DIR }}
       if: always()
       run: |
         source $VENV_ROOT_DIR/everything/bin/activate
-        python -m nubs tests --coverage --cov_file $NUBS_ROOT_DIR/.coverage.full
+        export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.full
+        export COVERAGE_RCFILE=$PYPROJEC_TOLM
+        python -m coverage nubs tests
 
     - name: Run coverage reports
       working-directory: ${{ env.NUBS_ROOT_DIR }}

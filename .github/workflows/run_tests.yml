@@ -176,7 +176,7 @@ jobs:
         source $VENV_ROOT_DIR/core_only/bin/activate
         export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.core
         export COVERAGE_RCFILE=$PYPROJEC_TOLM
-        python -m coverage nubs tests
+        coverage run nubs tests
 
     - name: Test without numba using static
       working-directory: ${{ env.NUBS_ROOT_DIR }}
@@ -185,7 +185,7 @@ jobs:
         source $VENV_ROOT_DIR/static/bin/activate
         export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.no_numba
         export COVERAGE_RCFILE=$PYPROJEC_TOLM
-        python -m coverage nubs tests
+        coverage run nubs tests
 
     - name: Test full library with everything
       working-directory: ${{ env.NUBS_ROOT_DIR }}
@@ -194,7 +194,7 @@ jobs:
         source $VENV_ROOT_DIR/everything/bin/activate
         export COVERAGE_FILE=$NUBS_ROOT_DIR/.coverage.full
         export COVERAGE_RCFILE=$PYPROJEC_TOLM
-        python -m coverage nubs tests
+        coverage run nubs tests
 
     - name: Run coverage reports
       working-directory: ${{ env.NUBS_ROOT_DIR }}
@@ -206,10 +206,10 @@ jobs:
         coverage run $NUBS_TESTS_DIR/test_cli.py
         deactivate
         source $VENV_ROOT_DIR/static/bin/activate
-        coverage run --append $NUBS_TESTS_DIR/test_version.py
+        coverage run --append $NUBS_TESTS_DIR/test_cli.py
         deactivate
         source $VENV_ROOT_DIR/everything/bin/activate
-        coverage run --append $NUBS_TESTS_DIR/test_version.py
+        coverage run --append $NUBS_TESTS_DIR/test_cli.py
 
     - name: Make the coverage reports
       working-directory: ${{ env.NUBS_ROOT_DIR }}

@@ -92,14 +92,14 @@ def main() -> int:
             return_code = _ReturnCodes.bad_version
     elif command == "doctests":
         # determine if running in verbose mode
-        verbose= "-v" in sys.argv[2:] or "--verbose" in sys.argv[2:]
+        verbose = "-v" in sys.argv[2:] or "--verbose" in sys.argv[2:]
         # initialize failure status
         had_failure = False
         # loop through and test each file
         folder = get_root_dir()
-        files = folder.rglob('*.py')
+        files = folder.rglob("*.py")
         for file in files:
-            failure_count, _ = doctest.testfile(file, report=True, verbose=verbose, module_relative=False)  # type: ignore[arg-type]
+            failure_count, _ = doctest.testfile(str(file), report=True, verbose=verbose, module_relative=False)
             if failure_count > 0:
                 had_failure = True
         return_code = _ReturnCodes.test_failures if had_failure else _ReturnCodes.clean

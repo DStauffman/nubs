@@ -18,11 +18,13 @@ Aug 10, 2022: nubs 1.0
 Oct 26, 2023: nubs 1.1
 Jan 24, 2024: nubs 1.2
 Apr 16, 2025: nubs 1.3
+Oct 13, 2026: nubs 1.4
 """
 
 # Historical notes:
 # v0.9 Initial release after splitting from the dstauffman library.
 # v1.0 Official baseline release.
-# v1.1 Official support Python v3.12, increment static tools like isort, mypy
-# v1.2 Use newer typing standards from Python v3.10+
-# v1.3 Ditch poetry entirely, use setuptools (and uv instead)
+# v1.1 Official support Python v3.12, increment static tools like isort, mypy.
+# v1.2 Use newer typing standards from Python v3.10+.
+# v1.3 Ditch poetry entirely, use setuptools (and uv instead).
+# v1.4 Drop python v3.11, use newer typing features, try lazy imports.

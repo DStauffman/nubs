@@ -8,11 +8,13 @@ Notes
 """
 
 # %% Imports
-from collections.abc import Callable
-from typing import Any
+from typing import Any, TYPE_CHECKING
 import unittest
 
 import nubs as nubs
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 if nubs.HAVE_NUMPY:
     import numpy as np

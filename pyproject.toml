@@ -185,4 +185,4 @@ allowed-unresolved-imports = ["numba.**"]
 include = ["**/tests/test_*.py"]
 
 [tool.ty.overrides.rules]
-unresolved-import = "ignore"
+import-not-found = "ignore"

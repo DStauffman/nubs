@@ -140,7 +140,7 @@ def np_all_axis0(x: _B) -> _B:
             out = np.logical_and(out, x[i, :, ...])
     else:
         out = np.all(x)  # type: ignore[assignment]
-    return out  # ty: ignore[invalid-return-type]
+    return out  # ty: ignore[invalid-explicit-return]
 
 
 # %% Functions - np_all_axis1
@@ -203,7 +203,7 @@ def np_any_axis0(x: _B) -> _B:
             out = np.logical_or(out, x[i, :, ...])
     else:
         out = np.any(x)  # type: ignore[assignment]
-    return out  # ty: ignore[invalid-return-type]
+    return out  # ty: ignore[invalid-explicit-return]
 
 
 # %% Functions - np_any_axis1
